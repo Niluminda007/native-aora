@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react';
-import {Slot,SplashScreen,Stack} from "expo-router";
-import {useFonts} from "expo-font";
+import React, { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,21 +17,30 @@ const RootLayout = () => {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
-  useEffect(()=>{
-    if(error) throw error;
-    if(fontsLoaded) SplashScreen.hideAsync();
-    if(!fontsLoaded && !error) return null;
+  useEffect(() => {
+    if (error) throw error;
 
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, error]);
 
-  },[fontsLoaded,error])
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  if (!fontsLoaded && !error) {
+    return null;
+  }
 
   return (
-   <Stack>
-    <Stack.Screen name="index" options={{headerShown:false}} />
-   </Stack>
-   
-  )
-}
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
+    </Stack>
+  );
+};
 
-export default RootLayout
-
+export default RootLayout;
